@@ -32,9 +32,9 @@ jobs:
             
       - name: 安装依赖
         run: |
-          pip install mkdocs
+          # pip install mkdocs
           # 如果有 requirements.txt 则使用
-          # pip install -r requirements.txt
+          pip install -r requirements.txt
           
       - name: 构建站点
         run: mkdocs build
