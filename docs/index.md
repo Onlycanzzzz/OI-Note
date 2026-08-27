@@ -25,6 +25,8 @@
 
 Github 仓库：[OI Note](https://github.com/Onlycanzzzz/OI-Note)
 
+截至目前，该网站已经被访问了 <img src="https://w.saobby.com/w/h29rrl96"> 次
+
 ## 说明
 本网站部分内容转载自公开网络，其原作者已通过 CC0 1.0（Creative Commons Zero 1.0 Universal） 将作品贡献至公共领域。
 
