@@ -23,6 +23,8 @@
 ## 官方链接
 暂时：[OI Note](https://oinote.gzsjay.icu/)
 
+Github 仓库：[OI Note](https://github.com/Onlycanzzzz/OI-Note)
+
 ## 说明
 本网站部分内容转载自公开网络，其原作者已通过 CC0 1.0（Creative Commons Zero 1.0 Universal） 将作品贡献至公共领域。
 
