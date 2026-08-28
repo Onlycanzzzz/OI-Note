@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>DFS序与高性能RMQ O(1) 在线求 LCA - OI Note</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../../css/brands.min.css" rel="stylesheet">
+        <link href="../../../css/solid.min.css" rel="stylesheet">
+        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">OI Note</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../../.." class="nav-link">欢迎来到 OI Note</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">图论</a>
+                                <ul class="dropdown-menu">
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">LCA</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">DFS序与高性能RMQ O(1) 在线求 LCA</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">最小生成树</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/Kruskal%20%E9%87%8D%E6%9E%84%E6%A0%91/" class="dropdown-item">Kruskal 重构树</a>
+</li>
+            
+<li>
+    <a href="../../%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/Kruskal/" class="dropdown-item">Kruskal</a>
+</li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">推荐题目</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../%E6%8E%A8%E8%8D%90%E9%A2%98%E7%9B%AE/%E8%AF%B4%E6%98%8E/" class="dropdown-item">说明</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">真题</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../%E7%9C%9F%E9%A2%98/CSP-S2025/" class="dropdown-item">CSP S2025</a>
+</li>
+                                    
+<li>
+    <a href="../../../%E7%9C%9F%E9%A2%98/NOI2026/" class="dropdown-item">NOI2026</a>
+</li>
+                                    
+<li>
+    <a href="../../../%E7%9C%9F%E9%A2%98/NOIP2025/" class="dropdown-item">NOIP2025</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../.." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/Kruskal%20%E9%87%8D%E6%9E%84%E6%A0%91/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">前言</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">思考</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">代码实现</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="_1">前言</h2>
+<p>在<a href="https://www.luogu.com.cn/article/n7zx95qv">这篇博客</a>中，有欧拉序ST表实现 <span class="arithmatex">\(O(1)\)</span> 查询 <code>LCA</code> 的算法，但在<a href="https://zhuanlan.zhihu.com/p/1901685904269117367">这篇知乎文章中</a>，题主用 <code>dfs序</code> 实现了对比 <code>欧拉序</code> 常数更优的方法。</p>
+<p>在这里，我们先约定 <span class="arithmatex">\(dfn_i\)</span> 表示节点<span class="arithmatex">\(i\)</span>第一次被访问顺序编号，<span class="arithmatex">\(out_i\)</span> 表示以 <span class="arithmatex">\(i\)</span> 为顶点的子树中最大的 <span class="arithmatex">\(dfn_j\)</span>。</p>
+<h2 id="_2">思考</h2>
+<p>观察 <code>DFS序</code> 的性质得到对于任意两个节点 <code>u</code> 和 <code>v</code>，若 <span class="arithmatex">\(dfn_u &lt; dfn_v\)</span>，如果 <span class="arithmatex">\(u\)</span> 是 <span class="arithmatex">\(v\)</span> 的祖先，那么 <span class="arithmatex">\(lca(u, v) = u\)</span>，否则 <span class="arithmatex">\(lca(u, v)\)</span> 就为区间 <span class="arithmatex">\([dfn_u, dfn_v]\)</span> 中深度最小的节点的父节点，这是显然的。</p>
+<p><strong>AI给出的证明</strong>：</p>
+<p>设 <span class="arithmatex">\(p = LCA(u, v)\)</span>。</p>
+<ol>
+<li>
+<p>因为 <span class="arithmatex">\(u\)</span> 不是 <span class="arithmatex">\(v\)</span> 的祖先，<span class="arithmatex">\(u\)</span> 和 <span class="arithmatex">\(v\)</span> 位于 <span class="arithmatex">\(p\)</span> 的不同子树中。</p>
+</li>
+<li>
+<p>设 <span class="arithmatex">\(u\)</span> 在 <span class="arithmatex">\(p\)</span> 的子节点 <span class="arithmatex">\(C_i\)</span> 的子树中，<span class="arithmatex">\(v\)</span> 在 <span class="arithmatex">\(p\)</span> 的子节点 <span class="arithmatex">\(C_j\)</span> 的子树中。由于 <span class="arithmatex">\(dfn[u] &lt; dfn[v]\)</span>，根据 DFS 顺序，必有 <span class="arithmatex">\(i &lt; j\)</span>。</p>
+</li>
+<li>
+<p>因此，DFS 序区间 <span class="arithmatex">\([dfn[u], dfn[v]]\)</span> 必然完整包含 <span class="arithmatex">\(p\)</span> 的子节点 <span class="arithmatex">\(C_{i+1}\)</span> 的第一个被访问的节点。</p>
+</li>
+<li>
+<p>区间内所有节点都是 <span class="arithmatex">\(p\)</span> 的后代，且 <span class="arithmatex">\(p\)</span> 本身不在该区间内（因为 <span class="arithmatex">\(p\)</span> 在 <span class="arithmatex">\(dfn[u]\)</span> 前已被访问）。所以区间内任意节点 <span class="arithmatex">\(x\)</span> 的深度都满足 <span class="arithmatex">\(dep[x] \ge dep[p] + 1\)</span>。</p>
+</li>
+<li>
+<p>由第 3 步可知，区间内存在深度恰好为 <span class="arithmatex">\(dep[p] + 1\)</span> 的节点（即 <span class="arithmatex">\(C_{i+1}\)</span> 的第一个节点）。</p>
+</li>
+<li>
+<p>综上，区间 <span class="arithmatex">\([dfn[u], dfn[v]]\)</span> 中深度最小的节点 <span class="arithmatex">\(x = RMQ(dfn[u], dfn[v])\)</span>，其深度必为 <span class="arithmatex">\(dep[p] + 1\)</span>，即 <span class="arithmatex">\(x\)</span> 是 <span class="arithmatex">\(p\)</span> 的直接子节点。</p>
+</li>
+<li>
+<p>所以 <span class="arithmatex">\(parent(x) = p = LCA(u, v)\)</span>，即 <span class="arithmatex">\(LCA(u, v) = parent(RMQ(dfn[u], dfn[v]))\)</span>。</p>
+</li>
+</ol>
+<p>那么实现同样是简单的，运用任意解决 <code>RMQ</code> 问题的数据结构（e.g., ST表）能在 <span class="arithmatex">\(O(1)\)</span> 查询区间 <span class="arithmatex">\([dfn_u, dfn_v]\)</span> 中深度最小的节点的父节点就可以做到 <span class="arithmatex">\(O(1)\)</span> 查询 <span class="arithmatex">\(LCA\)</span> 了。</p>
+<h2 id="_3">代码实现</h2>
+<p>先鸽一下，欢迎 PR。</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../javascripts/mathjax.js"></script>
+        <script src="https://npm.elemecdn.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
